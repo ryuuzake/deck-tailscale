@@ -24,7 +24,11 @@ echo "got ${version}."
 echo "Downloading:"
 
 # download the Tailscale package itself
-wget -q --show-progress -O tailscale.tgz "https://pkgs.tailscale.com/stable/${tarball}"
+if command -v aria2c &> /dev/null; then
+    aria2c -x 10 -o tailscale.tgz "https://pkgs.tailscale.com/stable/${tarball}"
+else
+    wget -q --show-progress -O tailscale.tgz "https://pkgs.tailscale.com/stable/${tarball}"
+fi
 
 echo -n "Removing Legacy Installations..."
 
